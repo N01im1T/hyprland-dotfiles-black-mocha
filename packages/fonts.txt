@@ -1,0 +1,9 @@
+# Latin, Cyrillic, CJK, Arabic, Indic, Thai, Hebrew, symbols and emoji
+ttf-jetbrains-mono-nerd
+otf-font-awesome
+noto-fonts
+noto-fonts-cjk
+noto-fonts-extra
+noto-fonts-emoji
+ttf-dejavu
+ttf-liberation

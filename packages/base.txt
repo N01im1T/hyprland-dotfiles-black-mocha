@@ -1,0 +1,17 @@
+# Core platform and configuration runtime
+base-devel
+git
+python
+python-packaging
+sudo
+pacman-contrib
+rsync
+jq
+ripgrep
+fd
+xdg-user-dirs
+polkit
+networkmanager
+bluez
+bluez-utils
+openssh

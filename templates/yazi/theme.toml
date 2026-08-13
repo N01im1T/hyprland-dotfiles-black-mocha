@@ -1,0 +1,13 @@
+[manager]
+cwd = { fg = "$accent" }
+hovered = { fg = "$base", bg = "$accent" }
+preview_hovered = { underline = true }
+border_symbol = "|"
+border_style = { fg = "$overlay0" }
+[status]
+separator_open = ""
+separator_close = ""
+mode_normal = { fg = "$base", bg = "$accent", bold = true }
+[select]
+border = { fg = "$accent" }
+active = { fg = "$accent" }

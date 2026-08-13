@@ -1,0 +1,11 @@
+:root {
+  --toolbar-bgcolor: #000000 !important;
+  --toolbar-color: #CDD6F4 !important;
+  --lwt-accent-color: #000000 !important;
+  --lwt-text-color: #CDD6F4 !important;
+  --focus-outline-color: #B4BEFE !important;
+  --tab-border-radius: 10px !important;
+}
+#navigator-toolbox, #sidebar-box { border-color: #1A1A1A !important; }
+.tab-background[selected] { background: #111111 !important; }
+#urlbar-background { background: #070707 !important; border-color: #1A1A1A !important; }

@@ -1,0 +1,33 @@
+[
+  {
+    "name": "top",
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "spacing": 8,
+    "modules-left": ["custom/arch", "hyprland/workspaces", "hyprland/window"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "cpu", "memory", "temperature", "battery"],
+    "custom/arch": {"format": "<span font_family='Font Awesome 7 Brands'>\uf557</span>", "tooltip-format": "Black Mocha Settings", "on-click": "dotctl settings"},
+    "hyprland/workspaces": {"format": "{name}", "persistent-workspaces": {"*": 5}},
+    "hyprland/window": {"max-length": 56, "separate-outputs": true},
+    "clock": {"format": "{:%a %d %b  %H:%M}", "tooltip-format": "<tt>{calendar}</tt>"},
+    "network": {"format-wifi": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf1eb</span>  {signalStrength}%", "format-ethernet": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf6ff</span>  LAN", "format-disconnected": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf071</span>  Offline"},
+    "bluetooth": {"format": "<span font_family='Font Awesome 7 Brands'>\uf293</span>", "format-disabled": "", "format-connected": "<span font_family='Font Awesome 7 Brands'>\uf293</span>  {num_connections}"},
+    "pulseaudio": {"format": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf028</span>  {volume}%", "format-muted": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf6a9</span>  Muted", "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"},
+    "cpu": {"format": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf2db</span>  {usage}%", "interval": 3},
+    "memory": {"format": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf538</span>  {percentage}%", "interval": 3},
+    "temperature": {"critical-threshold": 85, "format": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf2c9</span>  {temperatureC}°"},
+    "battery": {"format": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf242</span>  {capacity}%", "format-charging": "<span font_family='Font Awesome 7 Free' weight='bold'>\uf0e7</span>  {capacity}%", "states": {"warning": 25, "critical": 10}},
+    "tray": {"spacing": 8}
+  },
+  {
+    "name": "bottom",
+    "layer": "top",
+    "position": "bottom",
+    "height": 42,
+    "margin-bottom": 8,
+    "modules-center": ["wlr/taskbar"],
+    "wlr/taskbar": {"format": "{icon}", "icon-size": 24, "tooltip-format": "{title}", "on-click": "activate", "on-click-middle": "close"}
+  }
+]

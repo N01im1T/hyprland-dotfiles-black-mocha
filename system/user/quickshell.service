@@ -1,0 +1,11 @@
+[Unit]
+Description=Black Mocha Quickshell
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/qs -c black-mocha
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

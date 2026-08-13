@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+root="${XDG_CONFIG_HOME:-$HOME/.config}/black-mocha"
+if [ -d "$root/runtime" ]; then
+  runtime="$root/runtime"
+else
+  runtime=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+fi
+
+if [ -n "${PYTHONPATH:-}" ]; then
+  export PYTHONPATH="$runtime:$PYTHONPATH"
+else
+  export PYTHONPATH="$runtime"
+fi
+
+exec python3 -m black_mocha "$@"

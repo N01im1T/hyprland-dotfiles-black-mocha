@@ -1,0 +1,11 @@
+[Unit]
+Description=Black Mocha session helpers
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/awww-daemon
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

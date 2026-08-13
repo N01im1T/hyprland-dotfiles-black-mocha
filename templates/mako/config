@@ -1,0 +1,15 @@
+font=$font 11
+background-color=${base}ee
+text-color=$text
+border-color=$overlay0
+border-size=1
+border-radius=$radius_large
+padding=14
+margin=12
+width=360
+height=140
+default-timeout=6000
+icons=1
+[urgency=high]
+border-color=$red
+default-timeout=0

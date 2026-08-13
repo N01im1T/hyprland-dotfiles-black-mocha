@@ -1,0 +1,6 @@
+selector=fuzzel
+action=clipboard
+files=[emojis]
+prompt=Emoji
+skin-tone=ask
+hidden-descriptions=false

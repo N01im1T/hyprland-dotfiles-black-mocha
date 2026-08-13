@@ -1,0 +1,15 @@
+# Installer/runtime state
+.cache/
+.state/
+*.local
+
+# Generated Python files
+__pycache__/
+*.py[cod]
+
+# Backups and editors
+*.bak
+*.backup
+.idea/
+.vscode/
+*~

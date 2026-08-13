@@ -1,0 +1,131 @@
+[[bind]]
+keys = "SUPER + Return"
+setting = "terminal"
+description = "Open terminal"
+category = "Applications"
+
+[[bind]]
+keys = "SUPER + E"
+setting = "file_manager"
+description = "Open file manager"
+category = "Applications"
+
+[[bind]]
+keys = "SUPER + Space"
+setting = "launcher"
+description = "Open application launcher"
+category = "Applications"
+
+[[bind]]
+keys = "SUPER + Q"
+command = "kando"
+description = "Open radial launcher"
+category = "Applications"
+
+[[bind]]
+keys = "SUPER + A"
+setting = "control_center"
+description = "Toggle control center"
+category = "Desktop"
+
+[[bind]]
+keys = "SUPER + slash"
+setting = "hotkeys"
+description = "Show all hotkeys"
+category = "Desktop"
+
+[[bind]]
+keys = "SUPER + L"
+command = "loginctl lock-session"
+description = "Lock the session"
+category = "System"
+
+[[bind]]
+keys = "SUPER + B"
+command = "bm-session toggle-waybar-bottom"
+description = "Toggle bottom taskbar"
+category = "Desktop"
+
+[[bind]]
+keys = "SUPER + C"
+command = "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"
+description = "Open clipboard history"
+category = "Utilities"
+
+[[bind]]
+keys = "SUPER + period"
+setting = "emoji_picker"
+description = "Open emoji picker"
+category = "Utilities"
+
+[[bind]]
+keys = "SUPER + N"
+setting = "text_editor"
+description = "Open graphical text editor"
+category = "Applications"
+
+[[bind]]
+keys = "SUPER + SHIFT + W"
+setting = "office_writer"
+description = "Open document editor"
+category = "Applications"
+
+[[bind]]
+keys = "SUPER + SHIFT + X"
+setting = "office_spreadsheet"
+description = "Open spreadsheet editor"
+category = "Applications"
+
+[[bind]]
+keys = "SUPER + V"
+setting = "vpn"
+description = "Open AmneziaVPN"
+category = "Network"
+
+[[bind]]
+keys = "SUPER + SHIFT + T"
+setting = "tor_browser"
+description = "Open Tor Browser"
+category = "Applications"
+
+[[bind]]
+keys = "SUPER + P"
+command = "dotctl wallpaper next"
+description = "Next wallpaper"
+category = "Desktop"
+
+[[bind]]
+keys = "SUPER + grave"
+command = "bm-session scratchpad"
+description = "Toggle scratchpad terminal"
+category = "Desktop"
+
+[[bind]]
+keys = "SUPER + SHIFT + P"
+command = "bm-session power-menu"
+description = "Open power menu"
+category = "System"
+
+[[bind]]
+keys = "SUPER + SHIFT + S"
+command = "dotctl screenshot"
+description = "Capture a selected region"
+category = "Utilities"
+
+[[bind]]
+keys = "SUPER + SHIFT + R"
+command = "dotctl record"
+description = "Toggle screen recording"
+category = "Utilities"
+
+[[bind]]
+keys = "SUPER + W"
+dispatcher = "window.close()"
+description = "Close active window"
+category = "Windows"
+
+[[bind]]
+keys = "SUPER + F"
+dispatcher = "window.fullscreen()"
+description = "Toggle fullscreen"
+category = "Windows"

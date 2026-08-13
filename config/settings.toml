@@ -1,0 +1,46 @@
+[theme]
+name = "Black Mocha"
+accent = "#B4BEFE"
+background = "#000000"
+text = "#CDD6F4"
+font = "JetBrainsMono Nerd Font"
+
+[appearance]
+radius_small = 8
+radius_medium = 12
+radius_large = 16
+radius_xlarge = 20
+border_width = 1
+gaps_inner = 8
+gaps_outer = 12
+blur = true
+shadows = true
+
+[animations]
+enabled = true
+speed = 1.0
+
+[wallpaper]
+directory = "~/Pictures/Wallpapers"
+transition = "fade"
+transition_duration = 0.45
+
+[commands]
+terminal = "kitty"
+file_manager = "kitty --class yazi -e yazi"
+browser = "firefox"
+editor = "nvim"
+launcher = "fuzzel"
+control_center = "qs ipc call controlCenter toggle"
+hotkeys = "qs ipc call hotkeys toggle"
+emoji_picker = "rofimoji --selector fuzzel --action clipboard --files emojis --prompt Emoji"
+text_editor = "gnome-text-editor"
+office_writer = "lowriter"
+office_spreadsheet = "localc"
+vpn = "AmneziaVPN"
+tor_browser = "tor-browser"
+
+[desktop]
+bottom_bar = true
+scale = "auto"
+profile = "balanced"

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+menu() { fuzzel --dmenu --prompt "$1"; }
+
+case "${1:-}" in
+  scratchpad)
+    if hyprctl clients -j | jq -e '.[] | select(.class == "black-mocha-scratchpad")' >/dev/null; then
+      hyprctl dispatch togglespecialworkspace scratchpad
+    else
+      kitty --class black-mocha-scratchpad &
+      sleep 0.2
+      hyprctl dispatch movetoworkspacesilent special:scratchpad
+      hyprctl dispatch togglespecialworkspace scratchpad
+    fi
+    ;;
+  power-menu)
+    choice="$(printf '%s\n' Lock Logout Suspend Restart Shutdown | menu 'Power: ')"
+    case "$choice" in
+      Lock) loginctl lock-session ;;
+      Logout) uwsm stop ;;
+      Suspend) systemctl suspend ;;
+      Restart) systemctl reboot ;;
+      Shutdown) systemctl poweroff ;;
+    esac
+    ;;
+  toggle-waybar-bottom)
+    pkill -USR1 waybar
+    ;;
+  *) printf 'Usage: bm-session {scratchpad|power-menu|toggle-waybar-bottom}\n' >&2; exit 2 ;;
+esac
