@@ -163,8 +163,11 @@ class ConfigTests(unittest.TestCase):
         packages = (REPO / "lib/packages.sh").read_text(encoding="utf-8")
         self.assertIn("aur_helper_works paru", packages)
         self.assertIn("aur_helper_works yay", packages)
+        self.assertIn("https://aur.archlinux.org/paru.git", packages)
+        self.assertIn("pacman -Q paru-bin", packages)
         self.assertIn("makepkg -fsi --noconfirm", packages)
         self.assertIn('aur_helper_works paru || die', packages)
+        self.assertNotIn("https://aur.archlinux.org/paru-bin.git", packages)
 
 
 

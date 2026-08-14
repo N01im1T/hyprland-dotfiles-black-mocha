@@ -40,7 +40,7 @@ install_aur_packages() {
 
   if [[ -z $helper ]]; then
     if command_exists paru || command_exists yay; then
-      warn "Installed AUR helper is broken (often caused by a libalpm upgrade); rebuilding paru-bin"
+      warn "Installed AUR helper is broken (often caused by a libalpm upgrade); rebuilding paru from source"
     fi
     install_paru
     helper=paru
@@ -54,20 +54,27 @@ aur_helper_works() {
 }
 
 install_paru() {
-  local build_dir="$STATE_HOME/cache/paru-bin"
-  log "Installing a fresh paru-bin as the regular user"
+  local build_dir="$STATE_HOME/cache/paru"
+  local -a conflicts=()
+  log "Building paru from source against the installed libalpm"
   mkdir -p "$(dirname "$build_dir")"
   if [[ -d "$build_dir/.git" ]]; then
     run git -C "$build_dir" pull --ff-only
   else
-    run git clone https://aur.archlinux.org/paru-bin.git "$build_dir"
+    run git clone https://aur.archlinux.org/paru.git "$build_dir"
   fi
   if [[ $DRY_RUN == true ]]; then
-    log "Would build paru-bin in $build_dir"
+    log "Would build paru from source in $build_dir"
   else
-    # Force rebuilding and reinstalling even when the package version did not
-    # change: pacman upgrades can change libalpm's ABI underneath AUR helpers.
+    pacman -Q paru-bin >/dev/null 2>&1 && conflicts+=(paru-bin)
+    pacman -Q paru-bin-debug >/dev/null 2>&1 && conflicts+=(paru-bin-debug)
+    if ((${#conflicts[@]})); then
+      log "Removing incompatible binary package: ${conflicts[*]}"
+      sudo pacman -Rns --noconfirm "${conflicts[@]}"
+    fi
+    # Build locally so Rust links paru to the libalpm ABI currently installed.
     (cd "$build_dir" && makepkg -fsi --noconfirm)
+    hash -r
     aur_helper_works paru || die "paru is still unusable after reinstalling it"
   fi
 }
