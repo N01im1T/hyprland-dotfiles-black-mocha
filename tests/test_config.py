@@ -169,6 +169,12 @@ class ConfigTests(unittest.TestCase):
         self.assertIn('aur_helper_works paru || die', packages)
         self.assertNotIn("https://aur.archlinux.org/paru-bin.git", packages)
 
+    def test_python_runtime_is_deployed_as_an_importable_package(self):
+        deploy = (REPO / "lib/deploy.sh").read_text(encoding="utf-8")
+        self.assertIn('runtime/black_mocha"', deploy)
+        self.assertIn("PYTHONPATH=", deploy)
+        self.assertIn("import black_mocha", deploy)
+
 
 
 if __name__ == "__main__":

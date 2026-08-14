@@ -16,12 +16,14 @@ deploy_configs() {
   fi
   mkdir -p "$HOME/.local/bin" "$xdg_config"
   install_tree "$PROJECT_ROOT/config" "$xdg_config/black-mocha"
-  install_tree "$PROJECT_ROOT/dotctl/black_mocha" "$xdg_config/black-mocha/runtime"
+  install_tree "$PROJECT_ROOT/dotctl/black_mocha" "$xdg_config/black-mocha/runtime/black_mocha"
   install_tree "$PROJECT_ROOT/templates" "$xdg_config/black-mocha/templates"
   install -Dm755 "$PROJECT_ROOT/dotctl/dotctl" "$HOME/.local/bin/dotctl"
   install -Dm755 "$PROJECT_ROOT/scripts/bm-session" "$HOME/.local/bin/bm-session"
   printf '%s\n' "$INSTALL_PROFILE" > "$xdg_config/black-mocha/profile"
   printf '%s\n' "$PROJECT_ROOT" > "$xdg_config/black-mocha/repository"
+  PYTHONPATH="$xdg_config/black-mocha/runtime" python3 -c \
+    'import black_mocha' || die "Failed to deploy the black_mocha Python module"
   python3 - "$xdg_config/black-mocha/hardware.toml" <<PY
 from pathlib import Path
 Path(__import__('sys').argv[1]).write_text('''[hardware]\ngpu = "${BM_GPU}"\ndevice = "${BM_DEVICE}"\nbattery = ${BM_BATTERY}\ntouchpad = ${BM_TOUCHPAD}\nbluetooth = ${BM_BLUETOOTH}\n''')
