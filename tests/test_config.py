@@ -183,6 +183,8 @@ class ConfigTests(unittest.TestCase):
         self.assertIn('text: "Sign in"', qml)
         self.assertIn('color: root.foreground', qml)
         self.assertIn("/usr/share/sddm/themes/black-mocha", deploy)
+        self.assertIn("zz-black-mocha.conf", deploy)
+        self.assertIn("Updating the higher-priority theme selection", deploy)
         self.assertIn("Current=black-mocha", config)
 
 

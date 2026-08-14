@@ -112,25 +112,13 @@ Rectangle {
         textRole: "name"
         currentIndex: sessionModel.lastIndex
         font.pixelSize: 16
-        contentItem: Text {
-          leftPadding: 16
-          text: session.displayText
-          color: root.foreground
-          verticalAlignment: Text.AlignVCenter
-          elide: Text.ElideRight
-        }
-        background: Rectangle {
-          radius: 12
-          color: "#181825"
-          border.width: 1
-          border.color: "#45475A"
-        }
-        popup.background: Rectangle { color: "#181825"; border.color: root.accent; radius: 8 }
-        delegate: ItemDelegate {
-          width: session.width
-          contentItem: Text { text: model.name; color: root.foreground; font.pixelSize: 16 }
-          background: Rectangle { color: highlighted ? "#313244" : "#181825" }
-        }
+        palette.window: "#181825"
+        palette.base: "#181825"
+        palette.button: "#181825"
+        palette.text: root.foreground
+        palette.buttonText: root.foreground
+        palette.highlight: root.accent
+        palette.highlightedText: "#000000"
       }
 
       Button {
