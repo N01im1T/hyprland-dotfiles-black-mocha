@@ -1,0 +1,13 @@
+[SddmGreeterTheme]
+Name=Black Mocha
+Description=Readable pure-black login theme for Black Mocha
+Author=Black Mocha contributors
+Copyright=(c) 2026 Black Mocha contributors
+License=MIT
+Type=sddm-theme
+Version=1.0
+Website=https://github.com/N01im1T/hyprland-dotfiles-black-mocha
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=black-mocha
+Theme-API=2.0

@@ -38,6 +38,9 @@ configure_services() {
   fi
   mkdir -p "$unit_dir"
   install -m644 "$PROJECT_ROOT/system/user/"*.service "$unit_dir/"
+  run sudo install -d -m755 /usr/share/sddm/themes/black-mocha /etc/sddm.conf.d
+  run sudo cp -a "$PROJECT_ROOT/sddm/black-mocha/." /usr/share/sddm/themes/black-mocha/
+  run sudo install -m644 "$PROJECT_ROOT/sddm/black-mocha.conf" /etc/sddm.conf.d/black-mocha.conf
   run sudo systemctl enable NetworkManager bluetooth sddm docker.service
   if systemctl list-unit-files AmneziaVPN.service >/dev/null 2>&1; then
     run sudo systemctl enable AmneziaVPN.service

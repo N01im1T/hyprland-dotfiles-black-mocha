@@ -175,6 +175,16 @@ class ConfigTests(unittest.TestCase):
         self.assertIn("PYTHONPATH=", deploy)
         self.assertIn("import black_mocha", deploy)
 
+    def test_sddm_theme_is_readable_and_installed(self):
+        qml = (REPO / "sddm/black-mocha/Main.qml").read_text(encoding="utf-8")
+        deploy = (REPO / "lib/deploy.sh").read_text(encoding="utf-8")
+        config = (REPO / "sddm/black-mocha.conf").read_text(encoding="utf-8")
+        self.assertIn('textRole: "name"', qml)
+        self.assertIn('text: "Sign in"', qml)
+        self.assertIn('color: root.foreground', qml)
+        self.assertIn("/usr/share/sddm/themes/black-mocha", deploy)
+        self.assertIn("Current=black-mocha", config)
+
 
 
 if __name__ == "__main__":

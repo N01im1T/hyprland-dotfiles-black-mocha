@@ -36,6 +36,8 @@ The installer detects AMD/Intel/NVIDIA graphics, laptop batteries, touchpads and
 
 After installation, reboot and select **Hyprland (uwsm-managed)** in SDDM.
 
+SDDM uses the included Black Mocha login theme with high-contrast text, explicit username and password fields, and a visible session selector. The theme is installed locally and requires no downloaded artwork.
+
 ## Daily use
 
 ```bash
