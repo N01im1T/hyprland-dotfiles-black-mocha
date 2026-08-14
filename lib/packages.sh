@@ -28,19 +28,34 @@ install_packages() {
 
 install_aur_packages() {
   local -a aur=(kando-bin spotify visual-studio-code-bin bibata-cursor-theme-bin amneziavpn-bin tor-browser-bin)
-  if command_exists paru; then
-    run paru -S --needed --noconfirm "${aur[@]}"
-  elif command_exists yay; then
-    run yay -S --needed --noconfirm "${aur[@]}"
+  local helper=""
+
+  if [[ $DRY_RUN == true ]]; then
+    command_exists paru && helper=paru
+    [[ -n $helper ]] || { command_exists yay && helper=yay; }
   else
-    install_paru
-    run paru -S --needed --noconfirm "${aur[@]}"
+    aur_helper_works paru && helper=paru
+    [[ -n $helper ]] || { aur_helper_works yay && helper=yay; }
   fi
+
+  if [[ -z $helper ]]; then
+    if command_exists paru || command_exists yay; then
+      warn "Installed AUR helper is broken (often caused by a libalpm upgrade); rebuilding paru-bin"
+    fi
+    install_paru
+    helper=paru
+  fi
+
+  run "$helper" -S --needed --noconfirm "${aur[@]}"
+}
+
+aur_helper_works() {
+  command_exists "$1" && "$1" --version >/dev/null 2>&1
 }
 
 install_paru() {
   local build_dir="$STATE_HOME/cache/paru-bin"
-  log "No AUR helper found; bootstrapping paru-bin as the regular user"
+  log "Installing a fresh paru-bin as the regular user"
   mkdir -p "$(dirname "$build_dir")"
   if [[ -d "$build_dir/.git" ]]; then
     run git -C "$build_dir" pull --ff-only
@@ -50,6 +65,9 @@ install_paru() {
   if [[ $DRY_RUN == true ]]; then
     log "Would build paru-bin in $build_dir"
   else
-    (cd "$build_dir" && makepkg -si --needed --noconfirm)
+    # Force rebuilding and reinstalling even when the package version did not
+    # change: pacman upgrades can change libalpm's ABI underneath AUR helpers.
+    (cd "$build_dir" && makepkg -fsi --noconfirm)
+    aur_helper_works paru || die "paru is still unusable after reinstalling it"
   fi
 }

@@ -159,6 +159,13 @@ class ConfigTests(unittest.TestCase):
         self.assertNotIn("telegram-desktop", default_packages)
         self.assertNotIn("discord", default_packages)
 
+    def test_broken_aur_helper_is_reinstalled(self):
+        packages = (REPO / "lib/packages.sh").read_text(encoding="utf-8")
+        self.assertIn("aur_helper_works paru", packages)
+        self.assertIn("aur_helper_works yay", packages)
+        self.assertIn("makepkg -fsi --noconfirm", packages)
+        self.assertIn('aur_helper_works paru || die', packages)
+
 
 
 if __name__ == "__main__":
