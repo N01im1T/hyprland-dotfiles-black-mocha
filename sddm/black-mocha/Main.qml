@@ -1,183 +1,106 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
 
 Rectangle {
   id: root
   width: 1920
   height: 1080
-  color: config.stringValue("background") || "#000000"
-
-  property color accent: config.stringValue("accent") || "#CBA6F7"
-  property color surface: config.stringValue("surface") || "#11111B"
-  property color foreground: config.stringValue("text") || "#CDD6F4"
-  property color muted: config.stringValue("muted") || "#A6ADC8"
-  property color danger: config.stringValue("error") || "#F38BA8"
+  color: "#000000"
+  property color foreground: "#F5F5F5"
+  property color muted: "#A6ADC8"
+  property color accent: "#CBA6F7"
+  property color surface: "#15151D"
+  property int selectedSession: sessionModel.lastIndex >= 0 ? sessionModel.lastIndex : 0
 
   function authenticate() {
-    message.text = "Signing in…"
-    sddm.login(username.text, password.text, session.currentIndex)
+    status.text = "Signing in…"
+    status.color = muted
+    sddm.login(username.text, password.text, selectedSession)
   }
 
-  Rectangle {
+  Column {
     anchors.centerIn: parent
-    width: Math.min(520, parent.width - 48)
-    height: 610
-    radius: 28
-    color: root.surface
-    border.width: 2
-    border.color: root.accent
+    width: Math.min(460, parent.width - 48)
+    spacing: 24
+    Text { anchors.horizontalCenter: parent.horizontalCenter; text: "BLACK MOCHA"; color: root.foreground; font.family: "Noto Sans"; font.pixelSize: 34; font.bold: true; font.letterSpacing: 4 }
+    Text { anchors.horizontalCenter: parent.horizontalCenter; text: "Sign in to your desktop"; color: root.muted; font.family: "Noto Sans"; font.pixelSize: 17 }
+    Item { width: 1; height: 10 }
 
-    ColumnLayout {
-      anchors.fill: parent
-      anchors.margins: 48
-      spacing: 18
-
+    Column {
+      width: parent.width; spacing: 8
+      Text { text: "USERNAME"; color: root.muted; font.pixelSize: 12; font.bold: true }
       Rectangle {
-        Layout.alignment: Qt.AlignHCenter
-        width: 72
-        height: 72
-        radius: 36
-        color: root.accent
-        Text {
-          anchors.centerIn: parent
-          text: "BM"
-          color: "#000000"
-          font.family: "Noto Sans"
-          font.pixelSize: 24
-          font.bold: true
+        width: parent.width; height: 58; radius: 10; color: root.surface
+        Rectangle { anchors.left: parent.left; anchors.bottom: parent.bottom; width: parent.width; height: username.activeFocus ? 3 : 1; color: username.activeFocus ? root.accent : "#45475A" }
+        TextInput {
+          id: username
+          anchors.fill: parent; anchors.leftMargin: 18; anchors.rightMargin: 18
+          color: root.foreground; selectionColor: root.accent; selectedTextColor: "#000000"
+          verticalAlignment: TextInput.AlignVCenter; font.family: "Noto Sans"; font.pixelSize: 19
+          text: userModel.lastUser; clip: true
+          KeyNavigation.tab: password
+          Keys.onReturnPressed: password.forceActiveFocus()
         }
       }
+    }
 
-      Text {
-        Layout.alignment: Qt.AlignHCenter
-        text: "BLACK MOCHA"
-        color: root.foreground
-        font.family: "Noto Sans"
-        font.pixelSize: 30
-        font.bold: true
-        font.letterSpacing: 3
-      }
-
-      Text {
-        Layout.alignment: Qt.AlignHCenter
-        text: "Welcome back"
-        color: root.muted
-        font.family: "Noto Sans"
-        font.pixelSize: 16
-      }
-
-      TextField {
-        id: username
-        Layout.fillWidth: true
-        Layout.preferredHeight: 54
-        text: userModel.lastUser
-        placeholderText: "Username"
-        color: root.foreground
-        placeholderTextColor: root.muted
-        selectByMouse: true
-        font.pixelSize: 17
-        background: Rectangle {
-          radius: 12
-          color: "#181825"
-          border.width: username.activeFocus ? 2 : 1
-          border.color: username.activeFocus ? root.accent : "#45475A"
+    Column {
+      width: parent.width; spacing: 8
+      Text { text: "PASSWORD"; color: root.muted; font.pixelSize: 12; font.bold: true }
+      Rectangle {
+        width: parent.width; height: 58; radius: 10; color: root.surface
+        Rectangle { anchors.left: parent.left; anchors.bottom: parent.bottom; width: parent.width; height: password.activeFocus ? 3 : 1; color: password.activeFocus ? root.accent : "#45475A" }
+        TextInput {
+          id: password
+          anchors.fill: parent; anchors.leftMargin: 18; anchors.rightMargin: 18
+          color: root.foreground; selectionColor: root.accent; selectedTextColor: "#000000"
+          verticalAlignment: TextInput.AlignVCenter; font.family: "Noto Sans"; font.pixelSize: 19
+          echoMode: TextInput.Password; passwordCharacter: "•"; clip: true
+          KeyNavigation.tab: loginButton
+          Keys.onReturnPressed: root.authenticate()
         }
       }
+    }
 
-      TextField {
-        id: password
-        Layout.fillWidth: true
-        Layout.preferredHeight: 54
-        placeholderText: "Password"
-        color: root.foreground
-        placeholderTextColor: root.muted
-        echoMode: TextInput.Password
-        passwordCharacter: "•"
-        font.pixelSize: 17
-        Keys.onReturnPressed: root.authenticate()
-        background: Rectangle {
-          radius: 12
-          color: "#181825"
-          border.width: password.activeFocus ? 2 : 1
-          border.color: password.activeFocus ? root.accent : "#45475A"
+    Column {
+      width: parent.width; spacing: 8
+      Text { text: "SESSION"; color: root.muted; font.pixelSize: 12; font.bold: true }
+      ListView {
+        width: parent.width; height: 46; orientation: ListView.Horizontal; spacing: 8; clip: true; model: sessionModel
+        delegate: Rectangle {
+          width: Math.max(150, sessionName.implicitWidth + 32); height: 42; radius: 8
+          color: index === root.selectedSession ? root.accent : root.surface
+          Text { id: sessionName; anchors.centerIn: parent; text: name; color: index === root.selectedSession ? "#000000" : root.foreground; font.family: "Noto Sans"; font.pixelSize: 15; font.bold: index === root.selectedSession }
+          MouseArea { anchors.fill: parent; onClicked: root.selectedSession = index }
         }
       }
+    }
 
-      ComboBox {
-        id: session
-        Layout.fillWidth: true
-        Layout.preferredHeight: 54
-        model: sessionModel
-        textRole: "name"
-        currentIndex: sessionModel.lastIndex
-        font.pixelSize: 16
-        palette.window: "#181825"
-        palette.base: "#181825"
-        palette.button: "#181825"
-        palette.text: root.foreground
-        palette.buttonText: root.foreground
-        palette.highlight: root.accent
-        palette.highlightedText: "#000000"
-      }
+    Rectangle {
+      id: loginButton
+      width: parent.width; height: 58; radius: 10; color: loginMouse.pressed ? "#B4BEFE" : root.accent
+      activeFocusOnTab: true
+      Text { anchors.centerIn: parent; text: "SIGN IN"; color: "#000000"; font.family: "Noto Sans"; font.pixelSize: 18; font.bold: true }
+      MouseArea { id: loginMouse; anchors.fill: parent; onClicked: root.authenticate() }
+      Keys.onReturnPressed: root.authenticate()
+      Keys.onSpacePressed: root.authenticate()
+    }
 
-      Button {
-        Layout.fillWidth: true
-        Layout.preferredHeight: 56
-        text: "Sign in"
-        onClicked: root.authenticate()
-        contentItem: Text {
-          text: parent.text
-          color: "#000000"
-          font.pixelSize: 18
-          font.bold: true
-          horizontalAlignment: Text.AlignHCenter
-          verticalAlignment: Text.AlignVCenter
-        }
-        background: Rectangle { radius: 12; color: root.accent }
-      }
-
-      Text {
-        id: message
-        Layout.fillWidth: true
-        horizontalAlignment: Text.AlignHCenter
-        text: "Select Hyprland (uwsm-managed), then sign in"
-        color: root.muted
-        font.pixelSize: 14
-        wrapMode: Text.WordWrap
-      }
-
-      RowLayout {
-        Layout.alignment: Qt.AlignHCenter
-        spacing: 28
-        Button {
-          text: "Restart"
-          flat: true
-          contentItem: Text { text: parent.text; color: root.foreground; font.pixelSize: 15 }
-          onClicked: sddm.reboot()
-        }
-        Button {
-          text: "Shut down"
-          flat: true
-          contentItem: Text { text: parent.text; color: root.foreground; font.pixelSize: 15 }
-          onClicked: sddm.powerOff()
-        }
-      }
+    Text { id: status; width: parent.width; horizontalAlignment: Text.AlignHCenter; text: "Select Hyprland (uwsm-managed)"; color: root.muted; font.family: "Noto Sans"; font.pixelSize: 14; wrapMode: Text.WordWrap }
+    Row {
+      anchors.horizontalCenter: parent.horizontalCenter; spacing: 36
+      Text { text: "RESTART"; color: restartMouse.containsMouse ? root.foreground : root.muted; font.pixelSize: 14; font.bold: true; MouseArea { id: restartMouse; anchors.fill: parent; hoverEnabled: true; onClicked: sddm.reboot() } }
+      Text { text: "SHUT DOWN"; color: powerMouse.containsMouse ? root.foreground : root.muted; font.pixelSize: 14; font.bold: true; MouseArea { id: powerMouse; anchors.fill: parent; hoverEnabled: true; onClicked: sddm.powerOff() } }
     }
   }
 
   Connections {
     target: sddm
     function onLoginFailed() {
-      message.text = "Incorrect username or password"
-      message.color = root.danger
+      status.text = "Login failed — check username and password"
+      status.color = "#F38BA8"
       password.text = ""
       password.forceActiveFocus()
     }
   }
-
-  Component.onCompleted: {
-    if (username.text.length > 0) password.forceActiveFocus()
-    else username.forceActiveFocus()
-  }
+  Component.onCompleted: { if (username.text.length > 0) password.forceActiveFocus(); else username.forceActiveFocus() }
 }

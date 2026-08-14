@@ -4,8 +4,10 @@ hl.config({
     gaps_in = $gaps_inner,
     gaps_out = $gaps_outer,
     border_size = $border_width,
-    ["col.active_border"] = "$accent",
-    ["col.inactive_border"] = "$overlay0",
+    col = {
+      active_border = "$accent",
+      inactive_border = "$overlay0",
+    },
     layout = "dwindle",
     resize_on_border = true,
   },
@@ -21,9 +23,8 @@ hl.config({
     kb_options = "grp:win_space_toggle",
     follow_mouse = 1,
     sensitivity = 0,
-    touchpad = { natural_scroll = true, tap-to-click = true, disable_while_typing = true },
+    touchpad = { natural_scroll = true, tap_to_click = true, disable_while_typing = true },
   },
-  gestures = { workspace_swipe_distance = 280, workspace_swipe_cancel_ratio = 0.35 },
   misc = { disable_hyprland_logo = true, disable_splash_rendering = true, vfr = true },
   xwayland = { force_zero_scaling = true },
 })
@@ -40,7 +41,7 @@ hl.layer_rule({ match = { namespace = "quickshell" }, blur = $blur, ignore_alpha
 hl.window_rule({ match = { class = "^(pavucontrol|nm-connection-editor|blueman-manager)$" }, float = true, center = true })
 hl.window_rule({ match = { class = "^(yazi-scratchpad)$" }, float = true, size = { "70%", "60%" }, center = true })
 
-hl.source("~/.config/hypr/generated-binds.lua")
+require("generated_binds")
 
 for workspace = 1, 10 do
   local key = workspace == 10 and "0" or tostring(workspace)

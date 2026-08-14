@@ -53,7 +53,7 @@ class ConfigTests(unittest.TestCase):
                 generate.TEMPLATES = root / "templates"
                 changed = generate.generate()
                 self.assertIn(config_home / "hypr/hyprland.lua", changed)
-                self.assertIn('hl.dsp.exec_cmd("kitty")', (config_home / "hypr/generated-binds.lua").read_text(encoding="utf-8"))
+                self.assertIn('hl.dsp.exec_cmd("kitty")', (config_home / "hypr/generated_binds.lua").read_text(encoding="utf-8"))
                 self.assertTrue((config_home / "waybar/config.jsonc").is_file())
                 self.assertTrue((config_home / "quickshell/black-mocha/shell.qml").is_file())
                 self.assertTrue((config_home / "quickshell/black-mocha/SettingsCenter.qml").is_file())
@@ -179,13 +179,22 @@ class ConfigTests(unittest.TestCase):
         qml = (REPO / "sddm/black-mocha/Main.qml").read_text(encoding="utf-8")
         deploy = (REPO / "lib/deploy.sh").read_text(encoding="utf-8")
         config = (REPO / "sddm/black-mocha.conf").read_text(encoding="utf-8")
-        self.assertIn('textRole: "name"', qml)
-        self.assertIn('text: "Sign in"', qml)
+        self.assertIn('text: "USERNAME"', qml)
+        self.assertIn('text: "SIGN IN"', qml)
         self.assertIn('color: root.foreground', qml)
         self.assertIn("/usr/share/sddm/themes/black-mocha", deploy)
         self.assertIn("zz-black-mocha.conf", deploy)
         self.assertIn("Updating the higher-priority theme selection", deploy)
         self.assertIn("Current=black-mocha", config)
+
+    def test_hyprland_uses_lua_module_loading(self):
+        hyprland = (REPO / "templates/hypr/hyprland.lua").read_text(encoding="utf-8")
+        generator = (REPO / "dotctl/black_mocha/generate.py").read_text(encoding="utf-8")
+        self.assertIn('require("generated_binds")', hyprland)
+        self.assertNotIn("hl.source", hyprland)
+        self.assertNotIn("tap-to-click", hyprland)
+        self.assertIn("tap_to_click", hyprland)
+        self.assertIn('"hypr/generated_binds.lua"', generator)
 
 
 

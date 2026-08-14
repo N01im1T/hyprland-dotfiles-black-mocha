@@ -86,7 +86,7 @@ def generate() -> list[Path]:
     }
     outputs = {
         CONFIG_HOME / "hypr/hyprland.lua": render("hypr/hyprland.lua", values),
-        CONFIG_HOME / "hypr/generated-binds.lua": _binds(bindings, settings["commands"]),
+        CONFIG_HOME / "hypr/generated_binds.lua": _binds(bindings, settings["commands"]),
         CONFIG_HOME / "waybar/config.jsonc": _waybar(values, settings["desktop"]["bottom_bar"]),
         CONFIG_HOME / "waybar/style.css": render("waybar/style.css", values),
         CONFIG_HOME / "quickshell/black-mocha/Theme.qml": render("quickshell/Theme.qml", values),
