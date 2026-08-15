@@ -29,7 +29,7 @@ class ConfigTests(unittest.TestCase):
     def test_templates_have_no_unknown_tokens(self):
         settings = tomllib.loads((REPO / "config/settings.toml").read_text(encoding="utf-8"))
         theme = tomllib.loads((REPO / "config/theme.toml").read_text(encoding="utf-8"))["colors"]
-        known = set(theme) | {"accent", "font", "radius", "radius_large", "border_width", "gaps_inner", "gaps_outer", "blur", "shadows", "animation_scale", "animations_enabled", "scale", "touchpad", "HOME", "schema"}
+        known = set(theme) | {"accent", "accent_rgba", "overlay0_rgba", "font", "radius", "radius_large", "border_width", "gaps_inner", "gaps_outer", "blur", "shadows", "animation_scale", "animations_enabled", "scale", "touchpad", "HOME", "schema"}
         import re
         for path in (REPO / "templates").rglob("*"):
             if not path.is_file(): continue
@@ -205,6 +205,10 @@ class ConfigTests(unittest.TestCase):
         self.assertNotIn("tap-to-click", hyprland)
         self.assertIn("tap_to_click", hyprland)
         self.assertIn('"hypr/generated_binds.lua"', generator)
+        self.assertIn("hl.dsp.focus({ workspace = workspace })", hyprland)
+        self.assertIn("hl.dsp.window.move({ workspace = workspace })", hyprland)
+        self.assertNotIn("hl.dsp.workspace", hyprland)
+        self.assertNotIn("move_to_workspace", hyprland)
 
 
 

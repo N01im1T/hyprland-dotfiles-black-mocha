@@ -11,6 +11,7 @@ weston
 qt6-svg
 qt6-declarative
 qt5-quickcontrols2
+adwaita-cursors
 waybar
 quickshell
 fuzzel

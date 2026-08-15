@@ -5,8 +5,8 @@ hl.config({
     gaps_out = $gaps_outer,
     border_size = $border_width,
     col = {
-      active_border = "$accent",
-      inactive_border = "$overlay0",
+      active_border = "$accent_rgba",
+      inactive_border = "$overlay0_rgba",
     },
     layout = "dwindle",
     resize_on_border = true,
@@ -15,7 +15,7 @@ hl.config({
     rounding = $radius,
     active_opacity = 1.0,
     inactive_opacity = 0.96,
-    blur = { enabled = $blur, size = 6, passes = 2, new_optimizations = true },
+    blur = { enabled = $blur, size = 6, passes = 2 },
     shadow = { enabled = $shadows, range = 18, render_power = 3, color = "rgba(000000aa)" },
   },
   input = {
@@ -31,9 +31,9 @@ hl.config({
 
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "$scale" })
 
-hl.animation({ leaf = "windowsIn", enabled = $animations_enabled, speed = 1.6 * $animation_scale, spring = "default", style = "popin 92%" })
-hl.animation({ leaf = "windowsOut", enabled = $animations_enabled, speed = 1.3 * $animation_scale, spring = "default", style = "popin 92%" })
-hl.animation({ leaf = "workspaces", enabled = $animations_enabled, speed = 2.2 * $animation_scale, spring = "default", style = "slide" })
+hl.animation({ leaf = "windowsIn", enabled = $animations_enabled, speed = 1.6 * $animation_scale, bezier = "default", style = "popin 92%" })
+hl.animation({ leaf = "windowsOut", enabled = $animations_enabled, speed = 1.3 * $animation_scale, bezier = "default", style = "popin 92%" })
+hl.animation({ leaf = "workspaces", enabled = $animations_enabled, speed = 2.2 * $animation_scale, bezier = "default", style = "slide" })
 hl.animation({ leaf = "fade", enabled = $animations_enabled, speed = 1.8 * $animation_scale, bezier = "default" })
 
 hl.layer_rule({ match = { namespace = "waybar" }, blur = $blur, ignore_alpha = 0.2 })
@@ -45,8 +45,8 @@ require("generated_binds")
 
 for workspace = 1, 10 do
   local key = workspace == 10 and "0" or tostring(workspace)
-  hl.bind("SUPER + " .. key, hl.dsp.workspace({ workspace = tostring(workspace) }))
-  hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move_to_workspace({ workspace = tostring(workspace) }))
+  hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = workspace }))
+  hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = workspace }))
 end
 
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true })

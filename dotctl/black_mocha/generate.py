@@ -23,11 +23,15 @@ def _lua_string(value: str) -> str:
     return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
+def _rgba(value: str) -> str:
+    return f"rgba({value.removeprefix('#')}ff)"
+
+
 def _binds(bindings: list[dict], commands: dict[str, str]) -> str:
     result = ["-- Generated from keybinds.toml; edit the TOML, then run dotctl apply."]
     dispatchers = {
         "window.close()": "hl.dsp.window.close()",
-        "window.fullscreen()": "hl.dsp.window.fullscreen()",
+        "window.fullscreen()": "hl.dsp.exec_cmd(\"hyprctl dispatch 'hl.dsp.window.fullscreen()'\")",
     }
     for item in bindings:
         action = dispatchers.get(item.get("dispatcher", ""))
@@ -69,6 +73,8 @@ def generate() -> list[Path]:
     values = {
         **colors,
         "accent": settings["theme"]["accent"],
+        "accent_rgba": _rgba(settings["theme"]["accent"]),
+        "overlay0_rgba": _rgba(colors["overlay0"]),
         "base": settings["theme"]["background"],
         "text": settings["theme"]["text"],
         "font": settings["theme"]["font"],
