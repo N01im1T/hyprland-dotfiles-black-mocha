@@ -36,7 +36,7 @@ The installer detects AMD/Intel/NVIDIA graphics, laptop batteries, touchpads and
 
 After installation, reboot and select **Hyprland (uwsm-managed)** in SDDM.
 
-SDDM uses the included Black Mocha login theme with high-contrast text, explicit username and password fields, and a visible session selector. The theme is installed locally and requires no downloaded artwork.
+SDDM uses a vendored, MIT-licensed adaptation of the official Catppuccin SDDM theme with the Black Mocha palette, larger text and its proven animated controls. Required Qt modules and the Weston greeter compositor are installed from official Arch repositories; attribution is included with the theme.
 
 ## Daily use
 

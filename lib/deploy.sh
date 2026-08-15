@@ -45,6 +45,10 @@ configure_services() {
     log "Updating the higher-priority theme selection in /etc/sddm.conf"
     run sudo sed -Ei 's|^([[:space:]]*Current[[:space:]]*=).*|\1black-mocha|' /etc/sddm.conf
   fi
+  if [[ -f /etc/sddm.conf ]] && grep -Eq '^[[:space:]]*DisplayServer[[:space:]]*=' /etc/sddm.conf; then
+    log "Updating the higher-priority SDDM display server in /etc/sddm.conf"
+    run sudo sed -Ei 's|^([[:space:]]*DisplayServer[[:space:]]*=).*|\1wayland|' /etc/sddm.conf
+  fi
   [[ -f /usr/share/sddm/themes/black-mocha/Main.qml ]] || die "SDDM theme was not installed"
   run sudo systemctl enable NetworkManager bluetooth sddm docker.service
   if systemctl list-unit-files AmneziaVPN.service >/dev/null 2>&1; then

@@ -7,6 +7,10 @@ xdg-desktop-portal-gtk
 qt5-wayland
 qt6-wayland
 sddm
+weston
+qt6-svg
+qt6-declarative
+qt5-quickcontrols2
 waybar
 quickshell
 fuzzel

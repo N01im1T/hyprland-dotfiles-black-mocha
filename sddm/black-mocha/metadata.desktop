@@ -1,14 +1,14 @@
 [SddmGreeterTheme]
-Name=Black Mocha
-Description=Readable pure-black login theme for Black Mocha
-Author=Black Mocha contributors
-Copyright=(c) 2026 Black Mocha contributors
-License=MIT
+Name=Black Mocha (Catppuccin SDDM)
+Description=Black Mocha adaptation of the Catppuccin SDDM theme
 Type=sddm-theme
-Version=1.0
+Version=2.1
 Website=https://github.com/N01im1T/hyprland-dotfiles-black-mocha
+Screenshot=preview.png
 MainScript=Main.qml
 ConfigFile=theme.conf
+TranslationsDirectory=translations
 Theme-Id=black-mocha
 Theme-API=2.0
+License=MIT
 QtVersion=6

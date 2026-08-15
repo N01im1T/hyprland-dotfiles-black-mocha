@@ -91,7 +91,9 @@ class ConfigTests(unittest.TestCase):
     def test_qml_delimiters_are_balanced(self):
         pairs = {"(": ")", "[": "]", "{": "}"}
         closing = set(pairs.values())
-        for path in (REPO / "templates/quickshell").glob("*.qml"):
+        qml_paths = list((REPO / "templates/quickshell").glob("*.qml"))
+        qml_paths += list((REPO / "sddm/black-mocha").rglob("*.qml"))
+        for path in qml_paths:
             text = path.read_text(encoding="utf-8")
             stack = []
             quote = None
@@ -177,15 +179,23 @@ class ConfigTests(unittest.TestCase):
 
     def test_sddm_theme_is_readable_and_installed(self):
         qml = (REPO / "sddm/black-mocha/Main.qml").read_text(encoding="utf-8")
+        user_field = (REPO / "sddm/black-mocha/Components/UserField.qml").read_text(encoding="utf-8")
+        password_field = (REPO / "sddm/black-mocha/Components/PasswordField.qml").read_text(encoding="utf-8")
         deploy = (REPO / "lib/deploy.sh").read_text(encoding="utf-8")
         config = (REPO / "sddm/black-mocha.conf").read_text(encoding="utf-8")
-        self.assertIn('text: "USERNAME"', qml)
-        self.assertIn('text: "SIGN IN"', qml)
-        self.assertIn('color: root.foreground', qml)
+        packages = (REPO / "packages/desktop.txt").read_text(encoding="utf-8")
+        self.assertIn('import "Components"', qml)
+        self.assertIn('color: "#000000"', qml)
+        self.assertIn('color: "#CDD6F4"', user_field)
+        self.assertIn('color: "#CDD6F4"', password_field)
         self.assertIn("/usr/share/sddm/themes/black-mocha", deploy)
         self.assertIn("zz-black-mocha.conf", deploy)
         self.assertIn("Updating the higher-priority theme selection", deploy)
         self.assertIn("Current=black-mocha", config)
+        self.assertIn("DisplayServer=wayland", config)
+        for package in ("weston", "qt6-svg", "qt6-declarative", "qt5-quickcontrols2"):
+            self.assertIn(package, packages)
+        self.assertTrue((REPO / "sddm/black-mocha/LICENSE.catppuccin").is_file())
 
     def test_hyprland_uses_lua_module_loading(self):
         hyprland = (REPO / "templates/hypr/hyprland.lua").read_text(encoding="utf-8")

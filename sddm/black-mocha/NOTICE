@@ -1,0 +1,8 @@
+This theme is adapted from Catppuccin for SDDM v1.1.2:
+https://github.com/catppuccin/sddm
+
+Copyright (c) 2021 Catppuccin
+Licensed under the MIT License. See LICENSE.catppuccin.
+
+Black Mocha modifications include the pure-black palette, larger typography,
+local installation integration, and SDDM Wayland configuration.
