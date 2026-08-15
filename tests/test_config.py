@@ -210,6 +210,12 @@ class ConfigTests(unittest.TestCase):
         self.assertNotIn("hl.dsp.workspace", hyprland)
         self.assertNotIn("move_to_workspace", hyprland)
 
+    def test_uwsm_environment_is_shell_safe(self):
+        env = (REPO / "templates/uwsm/env").read_text(encoding="utf-8")
+        self.assertIn("export QT_QPA_PLATFORM='wayland;xcb'", env)
+        self.assertIn("export XCURSOR_THEME=Adwaita", env)
+        self.assertNotIn("Bibata", env)
+
 
 
 if __name__ == "__main__":
